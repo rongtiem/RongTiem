@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -20,40 +19,52 @@ Route::get('/', function()
 
 //Route::resource('posts', "PostController"); /*posts is url link to PostController*/
 
-Route::get("posts", function(){
+Route::get('posts', function(){
 	return Post::orderBy('id', 'DESC')->get();
 });
 
-Route::post("posts", function(){
+Route::post('posts', function(){
 	return Post::create(Input::all());
 });
 
-Route::get("file", function(){
+Route::get('file', function(){
 	return View::make('file.upload');
 });
 
-Route::post("file", function(){
+Route::post('file', function(){/*str_random(6).'_'.*/
 	if (Input::hasFile('file')){
 		$dest = 'images/';
-		$name = str_random(6).'_'.Input::file('file')->getClientOriginalName();
+		$name = Input::file('file')->getClientOriginalName();
 		Input::file('file')->move($dest,$name);
 	}
 });
 
-Route::get("points", function(){
+Route::get('points', function(){
 	return $user = User::find(1)->points;
 });
-Route::post("points", 'UserController@updatePoints');
-Route::post("points2", 'UserController@updatePoints2');
+Route::post('points', 'UserController@updatePoints');
+Route::post('points2', 'UserController@updatePoints2');
 
-Route::get("postId/{idIn?}", function(){
+Route::get('postId/{idIn?}', function(){
 	return $id = Post::where('id', 'idIn')->get();
 });
-Route::get("comments", function(){
+Route::get('comments', function(){
 	return Comment::all();
 });
-Route::post("comments", function(){
+Route::post('comments', function(){
 	return Comment::create(Input::all());
 });
+Route::get('subject', function()
+{
+	return View::make('subjectPage');
+});
 
+Route::post('img', function(){
+	return Photo::create(Input::all());
+});
+
+Route::get('index', function()
+{
+	return View::make('index');
+});
 

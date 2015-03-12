@@ -25,20 +25,7 @@
     </div>
     <div class="panel-body">
       <div class="list-group">
-        <a href="http://bootply.com/tagged/modal" class="list-group-item">CS111</a>
-        <a href="http://bootply.com/tagged/datetime" class="list-group-item">CS314</a>
-        <a href="http://bootply.com/tagged/datatable" class="list-group-item">CS388</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4>วิชาที่เรียน/สอน</h4>
-    </div>
-    <div class="panel-body">
-      <div class="list-group">
-        <a href="http://bootply.com/tagged/modal" class="list-group-item">CS111</a>
+        <a href="subject" class="list-group-item">CS111</a>
         <a href="http://bootply.com/tagged/datetime" class="list-group-item">CS314</a>
         <a href="http://bootply.com/tagged/datatable" class="list-group-item">CS388</a>
       </div>

@@ -11,4 +11,7 @@
 	{
 		return $this->belongsTo('User', 'user_id');
 	}
+	public function image() {         
+		return $this->hasOne('Photo', 'photos_id', 'id');     
+	} 
 }

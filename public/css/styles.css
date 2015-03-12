@@ -286,3 +286,16 @@ small.text-muted {
   }
 
 }
+
+/*
+ * face book
+ * --------------------------------------------------
+ */
+.groupLitestandClassicJumpLayout .groupsJumpBarTop {
+    border-bottom: 0px none;
+}
+
+a:hover{
+  /*color: #ff00ff;*/
+  text-decoration: underline;
+}

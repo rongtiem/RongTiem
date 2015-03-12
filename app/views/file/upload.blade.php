@@ -1,4 +1,4 @@
-{{ Form::open(array('files'=>true)) }}
+{{ Form::open(array('url'=>'file','files'=>true)) }}
 	
 	{{ Form::file('file') }}
 	<br/>

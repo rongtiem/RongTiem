@@ -4,26 +4,38 @@
 		$interpolateProvider.endSymbol(']]');
 	});
 
-	myApp.controller("PostCtrl",function ($scope,$http){
-
-		$scope.addNewPost = function(){
-			$http.get("/posts").success(function(posts){
-				$scope.posts = posts;
+	myApp.controller("PostCtrl",function ($scope,$http,fileReader){		
+		console.log(fileReader)
+		$scope.getFile = function () {
+			$scope.progress = 0;
+			fileReader.readAsDataUrl($scope.file, $scope)
+			.then(function(result) {
+				$scope.imageSrc = result;
 			});
-			if ($scope.isQuestionFormOpen==true) {
+		};
+		$scope.addNewPost = function(){
+			if ($scope.posttitle.length>0) {
+				$http.get("/posts").success(function(posts){
+					$scope.posts = posts;
+				});
+				if ($scope.isQuestionFormOpen==true) {
 					var Quest = 1;
 				};
-			//$arr = array('Hello','World!','Beautiful','Day!');
-			//var tagsIn = implode(",",$scope.posttags);
-			
-			var postNew = {
-				title: $scope.posttitle,
-				body: $scope.postbody,
-				//tags: $tagsIn,
-				question: Quest,
-				//img: $data,//slug: Str::slug($scope.posttitle),
-				user_id:  '1'
+
+				var postNew = {
+					title: $scope.posttitle,
+					body: $scope.postbody,
+					//tags: $tagsIn,
+					question: Quest,
+					img: $scope.imageSrc,//slug: Str::slug($scope.posttitle),
+					user_id:  '1'
+				}
+			var img = $scope.file;
+			var imgNew = {
+				//image: 'name',
+				imageName: 'name'
 			}
+
 			$http.get("/posts").success(function(posts){
 				$scope.posts = posts;
 			});
@@ -32,26 +44,18 @@
 			$scope.postbody = "";
 			$scope.posttags = "tagsIn";	
 			$http.post("posts",postNew);
-			$http.post("/points2");
-			$http.post("file",$scope.postImg);
+			$http.post("points2");
+			$http.post("img",imgNew);
 			$http.get("/posts").success(function(posts){
 				sleep(1);
 				$scope.posts = posts;
 			});
-
+		  }
 		}
 
 		$http.get("/posts").success(function(posts){
 			$scope.posts = posts;
 		});
-
-		/*$scope.remaining = function(){
-			var count = 0;
-			angular.forEach($scope.posts,function(post){
-				count += post.user_id ? 0 : 1;
-			});
-			return count;
-		}*/
 
 		/*tag */
 		$scope.posttags = [
@@ -111,7 +115,7 @@
         }*/
 	});
 
-	myApp.controller("UploadController",function ($scope, fileReader){
+	/*myApp.controller("UploadController",function ($scope, fileReader){
 		console.log(fileReader)
 		$scope.getFile = function () {
 			$scope.progress = 0;
@@ -126,8 +130,17 @@
 		});
 
 		//$scope.postImg = "";
+		
+			/*$http.get("/comments").success(function(comments){
+				$scope.comments = comments;
+			});*/
+			//$scope.comments.push(commentNew);
+			
+			/*$http.get("/comments").success(function(comments){
+				$scope.comments = comments;
+			});*/
 
-	});
+	//});
 
 	myApp.directive("ngFileSelect",function(){
 		return {
@@ -190,6 +203,7 @@
 		};
 
 	});
+	
 
 	
 
