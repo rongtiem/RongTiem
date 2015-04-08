@@ -4,7 +4,8 @@
 		$interpolateProvider.endSymbol(']]');
 	});
 
-	myApp.controller("PostCtrl",function ($scope,$http,fileReader){		
+	myApp.controller("PostCtrl",function ($scope,$http,fileReader){	
+
 		console.log(fileReader)
 		$scope.getFile = function () {
 			$scope.progress = 0;
@@ -13,6 +14,7 @@
 				$scope.imageSrc = result;
 			});
 		};
+
 		$scope.addNewPost = function(){
 			if ($scope.posttitle.length>0) {
 				$http.get("/posts").success(function(posts){
@@ -27,31 +29,34 @@
 					body: $scope.postbody,
 					//tags: $tagsIn,
 					question: Quest,
-					img: $scope.imageSrc,//slug: Str::slug($scope.posttitle),
+					img: $scope.file.name,//slug: Str::slug($scope.posttitle),
 					user_id:  '1'
 				}
-			var img = $scope.file;
-			var imgNew = {
-				//image: 'name',
-				imageName: 'name'
-			}
+				//var filePath = $scope.file.path();
+				var postImg = {
+					//image: filePath,
+					imageName: $scope.file.name
+				}
+				//$http.post("file",{'file':$scope.imageSrc});
 
-			$http.get("/posts").success(function(posts){
-				$scope.posts = posts;
-			});
-			$scope.posts.push(postNew);
-			$scope.posttitle = "";
-			$scope.postbody = "";
-			$scope.posttags = "tagsIn";	
-			$http.post("posts",postNew);
-			$http.post("points2");
-			$http.post("img",imgNew);
-			$http.get("/posts").success(function(posts){
-				sleep(1);
-				$scope.posts = posts;
-			});
-		  }
-		}
+				$http.get("/posts").success(function(posts){
+					$scope.posts = posts;
+				});
+				$http.post("img",postImg);
+				$scope.posts.push(postNew);
+				$scope.posttitle = "";
+				$scope.postbody = "";
+				$scope.posttags = "tagsIn";	
+				$http.post("posts",postNew);
+				$http.post("points2/1");
+
+				$http.get("/posts").success(function(posts){
+					sleep(1);
+					$scope.posts = posts;
+				});
+		    }//end if
+		    
+		}//end addNewPost
 
 		$http.get("/posts").success(function(posts){
 			$scope.posts = posts;
@@ -68,11 +73,13 @@
 		];
 		/*/tag */ 
 
-	
 	}); //End PostCtrl
 	
 	myApp.controller("FrmController",function ($scope,$http){
-		
+		$scope.lobbyid = 1;
+		$scope.checkLobbyID = function(lobby){
+        return lobby.lobbyid === parseInt($scope.lobbyid)
+        }	
 		var idPost = $scope.post.id;
 		$scope.myFilter = function (item) { 
 			return (item == idPost);
@@ -98,8 +105,8 @@
 		$http.get("/comments").success(function(comments){
 				$scope.comments = comments;
 		});
-		/*$scope.myFilter = function (item) { 
-			return item === $scope.post_id;
+		/*scope.myFilter2 = function (item) { 
+			return item === $scope.post.user_id;
 		};*/
 
 		/*$scope.comments = [];
@@ -145,9 +152,7 @@
 	myApp.directive("ngFileSelect",function(){
 		return {
 			link: function($scope,el){
-
 				el.bind("change", function(e){
-
 					$scope.file = (e.srcElement || e.target).files[0];
 					$scope.getFile();
 				})
@@ -183,13 +188,15 @@
 	}]);
 
 	myApp.controller("LikeController",function ($scope,$http){
+
 		var hasLiked = false;
 		$scope.likeClick = function () {
 			if (!hasLiked) {
 				hasLiked = true;
 				$scope.liked = 'Like';
 				$scope.likeCount += 1;
-				$http.post("/points");
+				$http.post("/points");		
+				$http.put("likes/"+$scope.post.id);
 			} 
 			else {
 				hasLiked = false;
@@ -198,8 +205,8 @@
 			}
 
 		};
-		$scope.HelpfulClick = function () {
-			$http.post("/points");
+		$scope.HelpfulClick = function () {//กระทู้นี้มีประโยชน์หรืไม่
+			//$http.post("/points");
 		};
 
 	});

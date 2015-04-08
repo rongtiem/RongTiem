@@ -5,9 +5,10 @@
     <meta charset="utf-8">
     <title>RongTiemCS@TU</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">    
-    <link href="css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="css/styles.css" rel="stylesheet"/>   
-
+    <!--<link href="css/bootstrap.min.css" rel="stylesheet"/>-->
+    <!--<link href="css/styles.css" rel="stylesheet"/>-->
+    <link rel="stylesheet" href="{{ URL::asset('css/bootstrap.min.css') }}"/>  
+    <link rel="stylesheet" href="{{ URL::asset('css/styles.css') }}"/>
     <!--<script>document.write('<base href="' + document.location + '" />');</script>-->
     
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/2.0.1/ng-tags-input.min.css" />
@@ -27,7 +28,7 @@
                         <div class="full col-sm-9">
                             <div class="row">
                                 @include('layouts.left')
-                                @include('layouts.center2_subjectPage')
+                                @include('layouts.center3_sujectPageYears')
                                 
                             </div>
                             

@@ -1,4 +1,3 @@
-
 <!-- top nav -->
 <div class="navbar navbar-red navbar-fixed-top ">  
   <div class="navbar-header">
@@ -26,6 +25,10 @@
       <li>
         <a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> Post</a>
       </li>  
+      <li>
+        <a href="{{ URL::to('logout') }}">Logout</a>
+      </li>
+      
     </ul>
   </nav>
 </div>

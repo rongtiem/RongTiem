@@ -16,7 +16,6 @@ class CreatePhotosTable extends Migration {
 			$table->increments('photos_id');             
 			$table->binary('image');             
 			$table->string('imageName');             
-			$table->primary('photos_id');
 		});
 		$filename = "C:/xampp/htdocs/Project/public/images/picture.png";         
 		 $data = File::get($filename);         

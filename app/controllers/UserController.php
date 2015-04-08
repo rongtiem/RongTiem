@@ -44,4 +44,22 @@ class UserController extends BaseController {
 		return Redirect::route('posts.index');
 	}
 
+	public function getImage($id) {         
+		$user = User::find($id);         
+	 if(count($user) > 0) { // ตรวจสอบว่ามีหนงัสือที่คน้หาหรือไม่             
+	 	$image = $user->image()->first();             
+		 if (count($image) > 0) { // ตรวจสอบว่ามีรูปสา หรับหนงัสือหรือไม่                 
+		 	$response = Response::make($image->image, 200);                 
+		 	$response->header('Content-Type', 'image/jpeg/png');                 
+		 	$response->header('Content-Disposition', 'attachment; filename=' . $image->imageName);             
+		 } 
+		 else{                 
+		 	$pathToFile = public_path().'\images\picture.png';                 
+		 	$response = Response::download($pathToFile, 'picture.png', ['Content-Type'=>'image/jpeg/png']);             
+		 }             
+		 return $response;         
+		}         
+	 return Response::json(null, 404); // คืน error ถา้ไม่พบหนงัสือ     } 
+	}
+
 }

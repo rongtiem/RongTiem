@@ -12,8 +12,13 @@
 
 Route::get('/', function()
 {
-	/*$posts = Post::orderBy('created_at', 'DESC')->paginate();
-	return View::make('home')->with('posts', $posts);*/
+	return View::make('welcome');
+});
+Route::post('/', array('uses' => 'HomeController@doLogin'));
+Route::get('logout', array('uses' => 'HomeController@doLogout'));
+
+Route::get('home', function()
+{
 	return View::make('home');
 });
 
@@ -27,27 +32,30 @@ Route::post('posts', function(){
 	return Post::create(Input::all());
 });
 
+Route::put('likes/{postid}', ['uses' =>'PostController@updateLikes']);//add like in table post
+
 Route::get('file', function(){
 	return View::make('file.upload');
 });
 
 Route::post('file', function(){/*str_random(6).'_'.*/
-	if (Input::hasFile('file')){
-		$dest = 'images/';
+	//if (Input::hasFile('file')){
+		$dest = 'uploads/';
 		$name = Input::file('file')->getClientOriginalName();
 		Input::file('file')->move($dest,$name);
-	}
+		echo "yeeeeeeee";
+	//}
 });
 
 Route::get('points', function(){
 	return $user = User::find(1)->points;
 });
-Route::post('points', 'UserController@updatePoints');
-Route::post('points2', 'UserController@updatePoints2');
+Route::post('points', 'UserController@updatePoints');//like points
+Route::post('points2/{userid}', 'UserController@updatePoints2');//5 point
 
-Route::get('postId/{idIn?}', function(){
+/*Route::get('postId/{idIn?}', function(){
 	return $id = Post::where('id', 'idIn')->get();
-});
+});*/
 Route::get('comments', function(){
 	return Comment::all();
 });
@@ -59,12 +67,16 @@ Route::get('subject', function()
 	return View::make('subjectPage');
 });
 
+Route::get('/subject/years', function()
+{
+	return View::make('subjectPageYears');
+});
+
 Route::post('img', function(){
 	return Photo::create(Input::all());
 });
 
-Route::get('index', function()
-{
-	return View::make('index');
-});
+//Route::get('post/json','PostController@getJson'); // คืน JSON ขอ้มูลหนงัสือ 
+Route::get('img/{id}/image', 'UserController@getImage'); // คืนรูปภาพ 
+
 

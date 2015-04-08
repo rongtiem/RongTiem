@@ -23,7 +23,7 @@
       </li> |
       <li>
         <div>
-           <a style="font-weight:bold;font-size:110%;" href="" >Years</a>
+           <a style="font-weight:bold;font-size:110%;" href='subject/years' >Years</a>
         </div>
       </li>
     </ul>
@@ -75,7 +75,7 @@
         <span ng-controller="LikeController">
           @include('Social.twitter')
 
-          <a ng-click="likeClick()" ng-init="liked='Like'; likeCount=0" ng-model="likeButt">[[liked]] [[likeCount]]</a>
+          <a ng-click="likeClick()" ng-init="liked='Like'; likeCount=post.likes" ng-model="likeButt">[[liked]] [[likeCount]]</a>
           <a float: "right" href="" >กระทู้นี้มีประโยชน์หรือไม่?</a><button align="right" ng-click="HelpfulClick()">มี</button><button>ไม่มี</button>
         </span>
       </div>

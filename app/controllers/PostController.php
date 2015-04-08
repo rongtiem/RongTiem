@@ -55,68 +55,38 @@ class PostController extends AdminController {
 		$date = $date->formatlocalized('%A %d %B %Y');
 		return View::make('home')->with('post', $post)->with('date', $date);
 	}
-	/**
-	* Show the form for editing the specified resource.
-	*
-	* @param int $id
-	* @return Response
-	*/
-	public function edit($id)
+	
+	public function updateLikes($postid)
 	{
-		$post = Post::find($id);
-		if(is_null($post))
-		{
-			return Redirect::route('posts.index');
-		}
-		return View::make('posts.edit')->with('post', $post);
-	}
-	/**
-	* Update the specified resource in storage.
-	*
-	* @param int $id
-	* @return Response
-	*/
-	public function update($id)
-	{
-		$input = array_except(Input::all(), '_method');
-		$v = Validator::make($input, Post::$rules);
-		if($v->passes())
-		{
-			Post::find($id)->update($input);
-			return Redirect::route('posts.index');
-		}
-		return Redirect::back()->withErrors($v);
-	}
-	/**
-	* Remove the specified resource from storage.
-	*
-	* @param int $id
-	* @return Response
-	*/
-	public function destroy($id)
-	{
-		Post::find($id)->delete();
+		$post = Post::find($postid);
+
+		$post->likes = ($post->likes)+'1';
+
+		$post->save();
+
 		return Redirect::route('posts.index');
 	}
+	
 	public function getJson() {         
-		return Post::all()->toJson();     
+	 	return Post::all()->toJson();     
 	} 
 
 	public function getImage($id) {         
 		$post = Post::find($id);         
-	    if(count($post) > 0) { // ตรวจสอบว่ามีหนงัสือที่คน้หาหรือไม่             
-	    	$image = $post->image()->first();             
-	    if (count($image) > 0) { // ตรวจสอบว่ามีรูปสา หรับหนงัสือหรือไม่                 
-	    	$response = Response::make($image->image, 200);                 
-	    	$response->header('Content-Type', 'image/jpeg');                 
-	    	$response->header('Content-Disposition', 'attachment; filename=' . $image->imageName);             
-	    } 
-	    else {                 
-	    	$pathToFile = public_path().'\images\picture.png';                 
-	    	$response = Response::download($pathToFile, 'defaultImg.jpg', ['Content-Type'=>'image/jpeg']);             
-	    }             
-	    	return $response;         
+	 if(count($post) > 0) { // ตรวจสอบว่ามีหนงัสือที่คน้หาหรือไม่             
+	 	$image = $post->image()->first();             
+		 if (count($image) > 0) { // ตรวจสอบว่ามีรูปสา หรับหนงัสือหรือไม่                 
+		 	$response = Response::make($image->image, 200);                 
+		 	$response->header('Content-Type', 'image/jpeg');                 
+		 	$response->header('Content-Disposition', 'attachment; filename=' . $image->imageName);             
+		 } 
+		 else {                 
+		 	$pathToFile = public_path().'\images\picture.png';                 
+		 	$response = Response::download('\images', 'picture.png', ['Content-Type'=>'image/jpeg']);             
+		 }             
+		 return $response;         
 		}         
-	    return Response::json(null, 404); // คืน error ถา้ไม่พบหนงัสือ     
+	 return Response::json(null, 404); // คืน error ถา้ไม่พบหนงัสือ     } 
 	}
+
 }
