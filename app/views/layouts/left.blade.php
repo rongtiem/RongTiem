@@ -2,8 +2,8 @@
  <!-- left -->                         
  <div class="col-sm-3">
   <!--profile pic-->
-  <div class="panel panel-default" ng-controller="UserController as u">
-    <div class="panel-thumbnail" align="center"><img src="/images/picture.png" class="img-responsive" width="150px" height="150px" ></div>
+  <div class="panel panel-default" ng-controller="UserController as u" >
+    <div class="panel-thumbnail" align="center"><img ng-src="http://rongtiem.com/img/1/image" width="150px" height="200px"></div>
     <div class="panel-body">
       <p class="lead">username</p> 
       <p> <img src="/images/user.png" class="img-responsive" style="float:left"> ชาวยุทธ์</p>

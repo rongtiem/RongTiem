@@ -28,6 +28,14 @@
       <li>
         <a href="{{ URL::to('logout') }}">Logout</a>
       </li>
+        @if(Session::has('global'))
+        <a>User Id:{{Session::get('global')}}</a>
+        @endif
+        @if(Auth::check())
+        <a>aaaa</a>
+        @else
+        <a href="">else</a>
+        @endif
       
     </ul>
   </nav>

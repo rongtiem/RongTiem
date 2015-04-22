@@ -9,18 +9,38 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+Route::group(array('before' => 'guest'),function() {
+
+	/*
+	|	CSRF protection group
+	*/
+	Route::group(array('before'=>'csrf'),function(){
+
+		Route::post('/', array(
+		'as' => 'account-create-post',
+		'uses' => 'AccountController@postCreate'
+	));
+	});
+
+	Route::get('/', array(
+		'as' => 'account-create',
+		'uses' => 'HomeController@doLogin'
+	));
+
+
+});
 
 Route::get('/', function()
 {
 	return View::make('welcome');
 });
-Route::post('/', array('uses' => 'HomeController@doLogin'));
-Route::get('logout', array('uses' => 'HomeController@doLogout'));
 
-Route::get('home', function()
-{
-	return View::make('home');
-});
+Route::get('home', array(
+		'as' => 'home',
+		'uses' => 'HomeController@showHome'
+));
+//Route::post('/', array('uses' => 'HomeController@doLogin'));
+Route::get('logout', array('uses' => 'HomeController@doLogout'));
 
 //Route::resource('posts', "PostController"); /*posts is url link to PostController*/
 
@@ -50,6 +70,15 @@ Route::post('file', function(){/*str_random(6).'_'.*/
 Route::get('points', function(){
 	return $user = User::find(1)->points;
 });
+Route::get('id', function(){
+	//return $user = User::find(1)->id;
+});
+Route::get('session',function(){
+	return Session::put('laravel','Thai');
+});
+Route::get('session2',function(){
+	return Session::get('laravel');
+});
 Route::post('points', 'UserController@updatePoints');//like points
 Route::post('points2/{userid}', 'UserController@updatePoints2');//5 point
 
@@ -78,5 +107,7 @@ Route::post('img', function(){
 
 //Route::get('post/json','PostController@getJson'); // คืน JSON ขอ้มูลหนงัสือ 
 Route::get('img/{id}/image', 'UserController@getImage'); // คืนรูปภาพ 
+
+
 
 

@@ -51,7 +51,7 @@
                                                 <td>
                                                     <lable id="loginbutton">
                                                         <!--<input value="Log In" tabindex="4" id="u_0_n" type="submit">-->
-                                                        {{ Form::submit('Log In') }}
+                                                        {{ Form::submit('Log In',array('class'=>'btn btn-large btn-block')) }}
                                                     </lable>
                                                 </td>
                                             </tr>
@@ -79,37 +79,50 @@
                         <div align="center">
                             <h2>สมัครสมาชิก</h2>
                             <h3>ขอเชิญเข้าสู่ยุทธภพแห่งความรู้</h3>
-                            {{ Form::open(array('url' => '')) }}
-                                <table style="width:80%">
+                            <form action="{{ URL::route('account-create-post') }}" method="post">
+                              <table style="width:80%">
                                     <tr style="width:100%">
-                                        <td><input class="form-control" type="text" placeholder="ชื่อ" ></input></td>
-                                        <td><input class="form-control" type="text" placeholder="นามสกุล" ></input></td>     
+                                        <td><input class="form-control" type="text" name="FirstName" placeholder="ชื่อ" ></input></td>
+                                        <td><input class="form-control" type="text" name="LastName" placeholder="นามสกุล" ></input></td> 
+                                        @if($errors->has('FirstName'))
+                                            <div>{{ $errors->first('FirstName') }}</div>
+                                        @endif     
+                                        @if($errors->has('LastName'))
+                                            <div>{{ $errors->first('LastName')}}</div>
+                                        @endif
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><input class="form-control" type="text" placeholder="ชื่อผู้ใช้งาน" ></input></td>    
+                                        <td colspan="2"><input class="form-control" type="text" name="email" placeholder="อีเมล์" {{(Input::old('email')) ? ' value="'.e(Input::old('email')).'"' : ''}}></input></td> 
+                                        @if($errors->has('email'))
+                                            <div>{{ $errors->first('email')}}</div>
+                                        @endif  
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><input class="form-control" type="text" placeholder="อีเมล์" ></input></td>   
+                                        <td colspan="2"><input class="form-control" type="password" name="password" placeholder="รหัสผ่าน" ></input></td>
+                                        @if($errors->has('password'))
+                                            <div>{{ $errors->first('password')}}</div>
+                                        @endif
                                     </tr>
                                     <tr>
-                                        <td colspan="2"><input class="form-control" type="password" placeholder="รหัสผ่าน" ></input></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><input class="form-control" type="password" placeholder="รหัสผ่านซ้ำ" ></input></td>
+                                        <td colspan="2"><input class="form-control" type="password" name="password_again" placeholder="รหัสผ่านซ้ำ" ></input></td>
+                                        @if($errors->has('password_again'))
+                                            {{ $errors->first('password_again')}}
+                                        @endif
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <input  type="radio" name="sex" value="male" checked>อาจารย์
-                                            <input  type="radio" name="sex" value="male" >นักศึกษา
-                                            <input  type="radio" name="sex" value="male" >ศิษย์เก่า
+                                            <input  type="radio" name="role" value="teacher" checked>อาจารย์
+                                            <input  type="radio" name="role" value="student" >นักศึกษา
+                                            <input  type="radio" name="role" value="senior" >ศิษย์เก่า
                                         </td>      
                                     </tr>
                                     <tr>
-                                        <td colspan="2" >{{ Form::submit('สมัครสมาชิก') }}</td>
+                                        <td colspan="2" >{{ Form::submit('สมัครสมาชิก',array('class'=>'btn btn-large btn-primary btn-block')) }}</td>
+                                        {{ Form::token()}}
                                     </tr>
                                     
-                                </table>
-                            {{ Form::close() }}
+                                </table>  
+                            </form>
                         </div>
                     </div>
                 </div>

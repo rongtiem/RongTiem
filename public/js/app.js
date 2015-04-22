@@ -76,10 +76,10 @@
 	}); //End PostCtrl
 	
 	myApp.controller("FrmController",function ($scope,$http){
-		$scope.lobbyid = 1;
+		/*$scope.lobbyid = 1;
 		$scope.checkLobbyID = function(lobby){
         return lobby.lobbyid === parseInt($scope.lobbyid)
-        }	
+        }*/
 		var idPost = $scope.post.id;
 		$scope.myFilter = function (item) { 
 			return (item == idPost);
@@ -176,7 +176,8 @@
 	});
 
 	myApp.controller("UserController",['$http',function ($http){
-		//$scope.max =1500;
+		//Session::get('global');
+
 		var filecontent = "la la la",
 		that = this;
 		$http.get("/points")
@@ -188,7 +189,6 @@
 	}]);
 
 	myApp.controller("LikeController",function ($scope,$http){
-
 		var hasLiked = false;
 		$scope.likeClick = function () {
 			if (!hasLiked) {

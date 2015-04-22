@@ -45,6 +45,7 @@
     <script src="js/angular.min.js"></script>
     <!-- shim is needed to support non-HTML5 FormData browsers (IE8-9)-->
     <script src="js/angular-file-upload-shim.min.js"></script> 
+    <script src="js/angular-file-upload.min.js"></script> 
     <script data-require="angular.js@1.2.x" src="http://code.angularjs.org/1.2.15/angular.js" data-semver="1.2.15"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/ng-tags-input/2.0.1/ng-tags-input.min.js"></script>
     {{ HTML ::script('js/scripts.js')}}
