@@ -19,24 +19,33 @@
       </div>
     </form>
     <ul class="nav navbar-nav">
+      @if(Auth::check())
       <li>
-        <a href="/"><i class="glyphicon glyphicon-home"></i> Home</a>
+        <a href="http://rongtiem.com/home"><i class="glyphicon glyphicon-home"></i> Home</a>
       </li>
-      <li>
+      @endif
+      <!--<li>
         <a href="#postModal" role="button" data-toggle="modal"><i class="glyphicon glyphicon-plus"></i> Post</a>
-      </li>  
+      </li>-->  
       <li>
         <a href="{{ URL::to('logout') }}">Logout</a>
       </li>
-        @if(Session::has('global'))
-        <a>User Id:{{Session::get('global')}}</a>
-        @endif
-        @if(Auth::check())
-        <a>aaaa</a>
-        @else
-        <a href="">else</a>
-        @endif
-      
+    </ul>
+    <ul class="nav" style="float:right">
+      @if(Session::has('global'))
+      <a>User Id:{{Session::get('global')}}</a>
+      @endif
+      @if(Auth::check())
+      <li>
+        <p >User Id: {{  Auth::user()->id }} สวัสดี: {{  Auth::user()->FirstName }}</p>
+        
+      </li>
+      @else
+      <a href="">else</a>
+      @endif
+      <script type="text/javascript">
+        var id = {{  Auth::user()->id }} // or array etc
+      </script>
     </ul>
   </nav>
 </div>

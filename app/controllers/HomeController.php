@@ -36,12 +36,12 @@ class HomeController extends BaseController {
 		if ($validator->fails()) {
 			return Redirect::to('/')
         		->withErrors($validator) // send back all errors to the login form
-        		->withInput(Input::except('password')); // send back the input (not the password) so that we can repopulate the form
+        		->withInput(Input::except('password2')); // send back the input (not the password) so that we can repopulate the form
     	} 
     	else {
 	    	$auth = Auth::attempt(array(
-	    		'email'     => Input::get('email'),
-	    		'password'  => Input::get('password')
+	    		'email'     => Input::get('email2'),
+	    		'password'  => Input::get('password2')
 	    	));
 
 	    	if($auth) {
@@ -50,11 +50,11 @@ class HomeController extends BaseController {
 	    	}
 	    	// create our user data for the authentication
 	    	$userdata = array(
-	    		'email'     => Input::get('email'),
-	    		'password'  => Input::get('password')
+	    		'email'     => Input::get('email2'),
+	    		'password'  => Input::get('password2')
 	    	);
-	    	$email = Input::get('email');
-	    	$password = Input::get('password');
+	    	$email = Input::get('email2');
+	    	$password = Input::get('password2');
 	    	// attempt to do the login
 	    	if (User::find($userdata)) {
 
@@ -78,11 +78,6 @@ class HomeController extends BaseController {
 		return Redirect::to('/');
 	}
 	public function doLogout()
-	{
-	    Auth::logout(); // log the user out of our application
-	    return Redirect::to('/'); // redirect the user to the login screen
-	}
-	public function getCreate()
 	{
 	    Auth::logout(); // log the user out of our application
 	    return Redirect::to('/'); // redirect the user to the login screen

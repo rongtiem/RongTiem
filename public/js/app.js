@@ -1,20 +1,23 @@
 (function(){
-	var myApp = angular.module('myApp', ['ngTagsInput'], function ($interpolateProvider) {
+	var myApp = angular.module('myApp', ['ngTagsInput','angularFileUpload'], function ($interpolateProvider) {
 		$interpolateProvider.startSymbol('[[');
 		$interpolateProvider.endSymbol(']]');
 	});
 
-	myApp.controller("PostCtrl",function ($scope,$http,fileReader){	
-
-		console.log(fileReader)
-		$scope.getFile = function () {
-			$scope.progress = 0;
-			fileReader.readAsDataUrl($scope.file, $scope)
-			.then(function(result) {
-				$scope.imageSrc = result;
-			});
-		};
-
+	myApp.controller("PostCtrl",function ($scope,$http){	
+		var Uid = "";
+		$http.get("id").success(function (data) {
+			Uid = data;
+		});
+		var UFirstname = "";
+		$http.get("FirstName").success(function (data) {
+			UFirstname = data;
+		});
+		var ULastname = "";
+		$http.get("LastName").success(function (data) {
+			ULastname = data;
+		});
+		
 		$scope.addNewPost = function(){
 			if ($scope.posttitle.length>0) {
 				$http.get("/posts").success(function(posts){
@@ -23,37 +26,37 @@
 				if ($scope.isQuestionFormOpen==true) {
 					var Quest = 1;
 				};
-
+				
 				var postNew = {
 					title: $scope.posttitle,
 					body: $scope.postbody,
 					//tags: $tagsIn,
 					question: Quest,
-					img: $scope.file.name,//slug: Str::slug($scope.posttitle),
-					user_id:  '1'
+					img:  'null' ,//slug: Str::slug($scope.posttitle),
+					user_id: Uid,
+					user_firstname: UFirstname,
+					user_lastname: ULastname
 				}
 				//var filePath = $scope.file.path();
-				var postImg = {
-					//image: filePath,
-					imageName: $scope.file.name
-				}
 				//$http.post("file",{'file':$scope.imageSrc});
 
 				$http.get("/posts").success(function(posts){
 					$scope.posts = posts;
 				});
-				$http.post("img",postImg);
 				$scope.posts.push(postNew);
 				$scope.posttitle = "";
 				$scope.postbody = "";
+				//$scope.imageSrc = null;
 				$scope.posttags = "tagsIn";	
+				//$http.post("file");
 				$http.post("posts",postNew);
-				$http.post("points2/1");
+				$http.post("points2");
 
 				$http.get("/posts").success(function(posts){
 					sleep(1);
 					$scope.posts = posts;
 				});
+				
 		    }//end if
 		    
 		}//end addNewPost
@@ -64,22 +67,21 @@
 
 		/*tag */
 		$scope.posttags = [
-			{ text: 'SE' },
-			{ text: 'Network' },
-			{ text: 'Parallel Processing' },
-			{ text: 'Image and Multimedia' },
-			{ text: 'CG' },
-			{ text: 'Database' }
+			
 		];
-		/*/tag */ 
+		/*tag */ 
+
+		$scope.loadTags = function(query) {
+			return $http.get('tags.json');
+		};
 
 	}); //End PostCtrl
 	
 	myApp.controller("FrmController",function ($scope,$http){
-		/*$scope.lobbyid = 1;
-		$scope.checkLobbyID = function(lobby){
-        return lobby.lobbyid === parseInt($scope.lobbyid)
-        }*/
+		var Uid = "";
+		$http.get("id").success(function (data) {
+			Uid = data;
+		});
 		var idPost = $scope.post.id;
 		$scope.myFilter = function (item) { 
 			return (item == idPost);
@@ -90,7 +92,8 @@
 			});
 			var commentNew = {
 				post_id: $scope.post.id,
-				commentsDes: $scope.txtcomment
+				commentsDes: $scope.txtcomment,
+				user_id: Uid
 			}
 			$http.get("/comments").success(function(comments){
 				$scope.comments = comments;
@@ -122,7 +125,7 @@
         }*/
 	});
 
-	/*myApp.controller("UploadController",function ($scope, fileReader){
+	myApp.controller("UploadController",function ($scope, fileReader){
 		console.log(fileReader)
 		$scope.getFile = function () {
 			$scope.progress = 0;
@@ -131,6 +134,7 @@
 				$scope.imageSrc = result;
 			});
 		};
+
 
 		$scope.$on("fileProgress", function(e, progress) {
 			$scope.progress = progress.loaded / progress.total;
@@ -147,7 +151,7 @@
 				$scope.comments = comments;
 			});*/
 
-	//});
+	});
 
 	myApp.directive("ngFileSelect",function(){
 		return {
@@ -175,18 +179,20 @@
 		};
 	});
 
-	myApp.controller("UserController",['$http',function ($http){
-		//Session::get('global');
-
+	/*myApp.controller("UserController",['$http',function ($http){
+		var Uid = "";
+		$http.get("id").success(function (data) {
+			Uid = data;
+		});
 		var filecontent = "la la la",
 		that = this;
-		$http.get("/points")
+		$http.get("/points/"+Uid)
 		.success(function (data) {
 			that.point = (data*100)/1500;
 			that.point2 = data;
 		});
 
-	}]);
+	}]);*/
 
 	myApp.controller("LikeController",function ($scope,$http){
 		var hasLiked = false;

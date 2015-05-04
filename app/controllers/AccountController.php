@@ -1,6 +1,43 @@
 <?php
 
 class AccountController extends BaseController {
+	public function postLogin (){
+		$rules = array(
+				'email2'		=> 	'required|email',
+				'password2'		=>	'required',
+				
+		);
+		$validator = Validator::make(Input::all(),$rules);
+		if($validator->fails()){
+			//Redirect to sing in again
+			return Redirect::to('/')
+				//->withErrors($validator)
+				->withInput();
+		}
+		else{
+			$auth = Auth::attempt(array(
+				'email'		=>	Input::get('email2'),
+				'password' 	=> 	Input::get('password2'),
+				'active'	=>	1
+			));
+			//$email = Input::get('email2');
+			if($auth){
+				//$userid = Auth::user()->id;
+				//Redirect to the intended page
+				return Redirect::intended('home');
+					      //->with('userid', $userid);
+			}
+			else{
+				return Redirect::to('/')
+					->with('global','Email/Password ไม่ถูกต้้อง');
+			}
+
+		}
+		return Redirect::route('account-activate')
+					->with('global','รอการติดต่อจากผู้ดูแล');
+
+
+	}
 	public function getCreate(){
 
 	}
@@ -28,7 +65,7 @@ class AccountController extends BaseController {
 
 		$validator = Validator::make(Input::all(),$rules, $messages);
 		if($validator->fails()){
-			return Redirect::route('account-create')
+			return Redirect::to('/')
 				->withErrors($validator)
 				->withInput();
 		}
@@ -53,12 +90,27 @@ class AccountController extends BaseController {
 
 			if($user){
 				//send email
-				Mail::send('emails.auth.test', array('name' =>'Tzu'),function($message){
-					$message->to('laravel2014cs@gmail.com','Tzu Phat')->subject('Test email');
+				Mail::send('emails.auth.test', array('FirstName' => $FirstName),function($message) use ($user){
+					$message->to($user->email, $user->FirstName)->subject('ยินดีต้อนรับสู่ โรงเตี๊ยม cs @ tu');
 				} );
-				return Redirect::view('/')
+				return Redirect::route('account-activate')
 					->with('global','รอการติดต่อจากผู้ดูแล');
 			}
+		}
+	}
+
+	public function getActivateUser(){
+		return View::make('userApply');
+	}
+
+	public function getActivateAdmin(){
+		$user = User::where('code','=',$code)->where('active','=',0);
+
+		if($user->count()){
+			$user = $user->first();
+			//Update user to active state
+			$user->active 	= 1;
+
 		}
 	}
 

@@ -2,18 +2,89 @@
  <!-- left -->                         
  <div class="col-sm-3">
   <!--profile pic-->
-  <div class="panel panel-default" ng-controller="UserController as u" >
-    <div class="panel-thumbnail" align="center"><img ng-src="http://rongtiem.com/img/1/image" width="150px" height="200px"></div>
+  <div class="panel panel-default" >
+    <div class="panel-thumbnail" align="center"><img ng-src="http://rongtiem.com/img/{{Auth::user()->id}}/image" width="150px" height="200px"></div>
     <div class="panel-body">
-      <p class="lead">username</p> 
-      <p> <img src="/images/user.png" class="img-responsive" style="float:left"> ชาวยุทธ์</p>
+      <p class="lead">{{Auth::user()->FirstName}}</p> 
+      @if(Auth::user()->points < 500) <!--/Step 1 -->
+      <p> <img src="/images/user.png" class="img-responsive" style="float:left">  ชาวยุทธ์</p>
+      @elseif(Auth::user()->points > 500 && Auth::user()->points < 1000) <!--/Step 2 -->
+      <p> <img src="/images/user2.png" class="img-responsive" style="float:left">  จอมยุทธ์</p>
+      @elseif(Auth::user()->points > 1000 && Auth::user()->points < 1500) <!--/Step 3 -->
+      <p> <img src="/images/user3.png" class="img-responsive" style="float:left">  ปรมาจารย์</p>
+      @else <!--/Step 4 -->
+      <p> <img src="/images/user4.png" class="img-responsive" style="float:left">  จ้าวยุทธภพ</p>
+      @endif
       <!--<p>พลังลมปราณ: <img src="/images/power.png" class="img-responsive"></p>-->
-      <div ><!--progressbar -->
-        <div max="max" value="dynamic" type="warning" class="progress-striped active progress ng-isolate-scope" >
-          <div style="width: [[u.point]]%;" class="progress-bar progress-bar-warning" ng-class="type &amp;&amp; 'progress-bar-' + type" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="1500" ng-style="{width: percent + '%'}" aria-valuetext="83%"><i class="ng-scope" > [[u.point2]]/1500</i></div>
-        </div>
-        <!--/progressbar -->
-      </div>
+      <!--<div >
+        <div max="max" value="" type="warning" class="progress-striped progress ng-isolate-scope" >
+          <div style="width: 60%;" class="progress-bar progress-bar-warning" ng-class="type &amp;&amp; 'progress-bar-' + type" role="progressbar" aria-valuenow="90" aria-valuemin="{{Auth::user()->points}}" aria-valuemax="1500" aria-valuetext="83%"><i class="ng-scope" > [[u.point]]{{Auth::user()->points}}/1500</i></div>
+        </div>   
+      </div>-->
+      <div class="progress"><!--progressbar -->
+        @if(Auth::user()->points < 500) <!--/Step 1 -->
+          @if(Auth::user()->points < 100 )
+          <div class="progress-bar progress-bar-info" style="width: 5%">
+            <span class="sr-only">10% Complete (info)</span>
+            <i style="color:red;">{{Auth::user()->points}}/1500</i>
+          </div>
+          @elseif(Auth::user()->points > 100 && Auth::user()->points < 200)
+          <div class="progress-bar progress-bar-info" style="width: 10%">
+            <span class="sr-only">10% Complete (info)</span>
+            <i style="color:red;">{{Auth::user()->points}}/1500</i>
+          </div>
+          @elseif(Auth::user()->points > 200 && Auth::user()->points < 300)
+          <div class="progress-bar progress-bar-info" style="width: 15%">
+            <span class="sr-only">10% Complete (info)</span>
+            <i style="color:red;">{{Auth::user()->points}}/1500</i>
+          </div>
+          @elseif(Auth::user()->points > 300 && Auth::user()->points < 400)
+          <div class="progress-bar progress-bar-info" style="width: 20%">
+            <span class="sr-only">10% Complete (info)</span>
+            <i style="color:red;">{{Auth::user()->points}}/1500</i>
+          </div>
+          @else
+          <div class="progress-bar progress-bar-info" style="width: 25%">
+            <span class="sr-only">10% Complete (info)</span>
+            <i style="color:red;">{{Auth::user()->points}}/1500</i>
+          </div>
+          @endif
+        @elseif(Auth::user()->points > 500 && Auth::user()->points < 1000) <!--/Step 2 -->
+          <div class="progress-bar progress-bar-info" style="width: 25%">
+            <span class="sr-only">10% Complete (info)</span>
+          </div>
+          <div class="progress-bar progress-bar-success" style="width: 25%">
+            <span class="sr-only">35% Complete (success)</span>
+            <i style="color:red;">{{Auth::user()->points}}/1500</i>
+          </div>
+        @elseif(Auth::user()->points > 1000 && Auth::user()->points < 1500) <!--/Step 3 -->
+          <div class="progress-bar progress-bar-info" style="width: 25%">
+            <span class="sr-only">10% Complete (info)</span>
+          </div>
+          <div class="progress-bar progress-bar-success" style="width: 25%">
+            <span class="sr-only">35% Complete (success)</span>
+            
+          </div>
+          <div class="progress-bar progress-bar-warning " style="width: 25%">
+            <span class="sr-only">20% Complete (warning)</span><i style="color:red;">{{Auth::user()->points}}/1500</i>
+          </div>
+        @else <!--/Step 4 -->
+          <div class="progress-bar progress-bar-info" style="width: 25%">
+            <span class="sr-only">10% Complete (info)</span>
+          </div>
+          <div class="progress-bar progress-bar-success" style="width: 25%">
+            <span class="sr-only">35% Complete (success)</span>
+            
+          </div>
+          <div class="progress-bar progress-bar-warning " style="width: 25%">
+            <span class="sr-only">20% Complete (warning)</span>
+          </div>
+          <div class="progress-bar progress-bar-danger" style="width: 25%">
+            <span class="sr-only">10% Complete (danger)</span><i style="color:red;">{{Auth::user()->points}}/1500</i>
+          </div>
+        @endif
+        <!--<i style="color:red;" align="center">{{Auth::user()->points}}/1500</i>-->
+      </div><!--/progressbar -->
       
     </div>
   </div>
@@ -21,9 +92,12 @@
 
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h4>วิชาที่เรียน/สอน</h4><a data-toggle="modal" data-target="#myModal" href="">+เพิ่ม</a>
+      @if(Auth::check()&&Auth::user()->role=='teacher')
+      <h4>วิชาที่สอน</h4><a data-toggle="modal" data-target="#myModal" href="">+เพิ่ม</a>
       <!-- Button trigger modal -->
-
+      @else
+      <h4>วิชาที่เรียน</h4>
+      @endif
     </div>
     <div class="panel-body">
       <div class="list-group">
@@ -66,7 +140,6 @@
         <div class="modal-body">
           <div class="form-group">
             <div><label for="group-name" class="col-lg-9 control-lable">Group Name</label></div>
-            
 
           </div>
         </div>

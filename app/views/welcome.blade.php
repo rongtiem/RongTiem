@@ -28,7 +28,7 @@
                                 <img src="images/nameSys.png" height="22%" width="22%" styles="margin-right: 20px;">   
                             </div>
                             <div class="pos_fixed2" align="left" >
-                                {{ Form::open(array('url' => '/')) }}
+                                {{ Form::open(array('route' => 'account-login')) }}
                                     <table>
                                         <tbody>
                                             <tr>
@@ -41,11 +41,11 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    {{ Form::text('email', Input::old('email'), array('placeholder' => 'awesome@awesome.com')) }}
+                                                    {{ Form::text('email2', Input::old('email2'), array('placeholder' => 'awesome@awesome.com')) }}
                                                     <!--<input class="inputtext" name="email" id="email" value="" tabindex="1" type="text">-->
                                                 </td>
                                                 <td>
-                                                    {{ Form::password('password') }}    
+                                                    {{ Form::password('password2') }}    
                                                     <!--<input class="inputtext" name="password" id="password" tabindex="2" type="password">-->
                                                 </td>
                                                 <td>

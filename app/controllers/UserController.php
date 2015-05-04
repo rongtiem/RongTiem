@@ -24,7 +24,8 @@ class UserController extends BaseController {
 
 	public function updatePoints()
 	{
-		$user = User::find(1);
+		$id = Auth::user()->id;
+		$user = User::find($id);
 
 		$user->points = ($user->points)+'1';
 
@@ -35,7 +36,8 @@ class UserController extends BaseController {
 
 	public function updatePoints2()
 	{
-		$user = User::find(1);
+		$id = Auth::user()->id;
+		$user = User::find($id);
 
 		$user->points = ($user->points)+'5';
 

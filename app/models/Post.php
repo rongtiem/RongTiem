@@ -14,4 +14,10 @@
 	public function image() {         
 		return $this->hasOne('Photo', 'photos_id', 'id');     
 	} 
+
+	public function picture()
+	   {
+	      return $this->hasOne('Photoforpost', 'post_id', 'id');
+	   }
+
 }

@@ -72,20 +72,22 @@ class PostController extends AdminController {
 	} 
 
 	public function getImage($id) {         
-		$post = Post::find($id);         
-	 if(count($post) > 0) { // ตรวจสอบว่ามีหนงัสือที่คน้หาหรือไม่             
-	 	$image = $post->image()->first();             
+		//$user = Photoforpost::find($id);  
+		$user = Post::find($id);    
+		//$users = DB::table('photoforposts')->where('post_id', '=', $id)->get();
+	 if(count($user) > 0) { // ตรวจสอบว่ามีหนงัสือที่คน้หาหรือไม่             
+	 	$image = $user->picture()->first();             
 		 if (count($image) > 0) { // ตรวจสอบว่ามีรูปสา หรับหนงัสือหรือไม่                 
-		 	$response = Response::make($image->image, 200);                 
-		 	$response->header('Content-Type', 'image/jpeg');                 
-		 	$response->header('Content-Disposition', 'attachment; filename=' . $image->imageName);             
+		 	$response = Response::make($image->photo, 200);                 
+		 	$response->header('Content-Type', 'image/jpeg/png');                 
+		 	$response->header('Content-Disposition', 'attachment; filename=' . $image->photo_name);             
 		 } 
-		 else {                 
-		 	$pathToFile = public_path().'\images\picture.png';                 
-		 	$response = Response::download('\images', 'picture.png', ['Content-Type'=>'image/jpeg']);             
+		 else{                 
+		 	$pathToFile = public_path().'\images\default-product-image.jpg';                 
+		 	$response = Response::download($pathToFile,'default-product-image.jpg', ['Content-Type'=>'image/jpeg/png']);             
 		 }             
 		 return $response;         
-		}         
+	}       
 	 return Response::json(null, 404); // คืน error ถา้ไม่พบหนงัสือ     } 
 	}
 
