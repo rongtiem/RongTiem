@@ -10,5 +10,10 @@
 	   {
 	      return $this->hasOne('Photo', 'photos_id', 'id');
 	   }
+
+	   public function posts()
+	   {
+	      return $this->belongsto('Post');
+	   }
 		
 }

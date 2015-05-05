@@ -11,6 +11,11 @@
 	{
 		return $this->belongsTo('User', 'user_id');
 	}
+
+	public function posts()
+	   {
+	      return $this->belongsto('Post');
+	   }
 	public function image() {         
 		return $this->hasOne('Photo', 'photos_id', 'id');     
 	} 
@@ -19,5 +24,9 @@
 	   {
 	      return $this->hasOne('Photoforpost', 'post_id', 'id');
 	   }
+
+	public function photos() {         
+		return $this->hasmany('Photoforpost');     
+	}
 
 }

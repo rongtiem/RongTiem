@@ -17,7 +17,9 @@ class HomeController extends BaseController {
 
 	public function showHome()
 	{
-		return View::make('home');
+		$photos = Auth::user()->photos()->get();
+		return View::make('home')
+			->with('photos',$photos);
 	}
 
 	public function doLogin()

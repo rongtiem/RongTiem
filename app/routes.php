@@ -68,7 +68,7 @@ Route::get('file', function(){
 	return View::make('file.upload');
 });
 
-Route::post('file', function(){/*str_random(6).'_'.*/
+/*Route::post('file', function(){/*str_random(6).'_'.*/
 	/*if (Input::hasFile('file')){
 		$dest = 'uploads/';
 		$name = Input::file('file')->getClientOriginalName();
@@ -81,7 +81,7 @@ Route::post('file', function(){/*str_random(6).'_'.*/
 	 	'image'  => 'required|image|mimes:jpeg,jpg,bmp,png,gif'         
 	 	);  
         $validation = Validator::make($input, $rules);  */
-        if (1) {             
+        /*if (1) {             
         	$image 		= Input::file('file');             
         	$data 		= File::get($image->getRealPath());             
         	$filename 	= $image->getClientOriginalName();  
@@ -99,8 +99,8 @@ Route::post('file', function(){/*str_random(6).'_'.*/
             return Redirect::back()->withInput()                 
             	->with('error', 'Sorry, the image could not be uploaded.');         
         } 
-});
-
+});*/
+Route::post('file', 'PhotoController@upload');
 
 Route::get('points/{$id}', function(){
 	return $user = User::find($id)->points;

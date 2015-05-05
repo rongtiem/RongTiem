@@ -19,6 +19,19 @@
         <auto-complete source="loadTags($query)"></auto-complete>
       </tags-input>
 
+      <div class="span9">
+        <h1>Your Photos</h1>
+        @forelse ($photos as $photo)
+        <div class="well" style="text-align:center">
+          <img src="{{$photo->location}}" alt="{{$photo->description}}" title="$photo->description"/>
+          <p>{{ $photo->description }}</p>
+        </div>
+        @empty
+        <div class="alert alert-info">
+          <h4 class="alert-heading">Awww!</h4>
+        </div>
+        @endforelse
+      </div>
       <ul class="list-inline" >
         <i ng-hide="imageSrc" ></i>
         <img ng-src="[[imageSrc]]" height="80" width="80" /><br/>

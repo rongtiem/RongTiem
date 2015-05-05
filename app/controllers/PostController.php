@@ -83,12 +83,15 @@ class PostController extends AdminController {
 		 	$response->header('Content-Disposition', 'attachment; filename=' . $image->photo_name);             
 		 } 
 		 else{                 
-		 	$pathToFile = public_path().'\images\default-product-image.jpg';                 
-		 	$response = Response::download($pathToFile,'default-product-image.jpg', ['Content-Type'=>'image/jpeg/png']);             
+		 	//$pathToFile = public_path().'\images\default-product-image.jpg';                 
+		 	//$response = Response::download($pathToFile,'default-product-image.jpg', ['Content-Type'=>'image/jpeg/png']);
+		 	$response = null;            
 		 }             
 		 return $response;         
 	}       
 	 return Response::json(null, 404); // คืน error ถา้ไม่พบหนงัสือ     } 
 	}
+
+
 
 }
