@@ -31,7 +31,7 @@ class UserController extends BaseController {
 
 		$user->save();
 
-		return Redirect::route('posts.index');
+		return Redirect::view('home');
 	}
 
 	public function updatePoints2()

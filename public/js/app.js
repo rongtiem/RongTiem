@@ -4,7 +4,7 @@
 		$interpolateProvider.endSymbol(']]');
 	});
 
-	myApp.controller("PostCtrl",function ($scope,$http){	
+	myApp.controller("PostCtrl",function ($scope,$http,fileReader){	
 		var Uid = "";
 		$http.get("id").success(function (data) {
 			Uid = data;
@@ -17,7 +17,14 @@
 		$http.get("LastName").success(function (data) {
 			ULastname = data;
 		});
-		
+		console.log(fileReader)
+		$scope.getFile = function () {
+			$scope.progress = 0;
+			fileReader.readAsDataUrl($scope.file, $scope)
+			.then(function(result) {
+				$scope.imageSrc = result;
+			});
+		};
 		$scope.addNewPost = function(){
 			if ($scope.posttitle.length>0) {
 				$http.get("/posts").success(function(posts){
@@ -30,9 +37,9 @@
 				var postNew = {
 					title: $scope.posttitle,
 					body: $scope.postbody,
-					//tags: $tagsIn,
+					tags: $scope.posttags,
 					question: Quest,
-					img:  'null' ,//slug: Str::slug($scope.posttitle),
+					img: $scope.img,//slug: Str::slug($scope.posttitle),
 					user_id: Uid,
 					user_firstname: UFirstname,
 					user_lastname: ULastname
@@ -47,7 +54,7 @@
 				$scope.posttitle = "";
 				$scope.postbody = "";
 				//$scope.imageSrc = null;
-				$scope.posttags = "tagsIn";	
+				$scope.posttags = "";	
 				//$http.post("file");
 				$http.post("posts",postNew);
 				$http.post("points2");
@@ -195,7 +202,22 @@
 	}]);*/
 
 	myApp.controller("LikeController",function ($scope,$http){
-		var hasLiked = false;
+		var Uid = "";
+		$http.get("id").success(function (data) {
+			Uid = data;
+		});
+		var likeDup = "";
+		$http.get("likesDup/"+Uid).success(function (data) {
+			likeDup = data;
+		});
+		var postId = $scope.post.id;
+		if( likeDup == postId ){
+			var hasLiked = false;
+		}
+		else{
+			var hasLiked = true;
+		}
+		
 		$scope.likeClick = function () {
 			if (!hasLiked) {
 				hasLiked = true;
@@ -207,7 +229,14 @@
 			else {
 				hasLiked = false;
 				$scope.liked = 'Like';
-				$scope.likeCount -= 1;
+				if($scope.likeCount==0){
+					$scope.likeCount = 0;
+				}
+				else{
+					$scope.likeCount -= 1;
+					$http.put("likesDelete/"+$scope.post.id);
+				}
+				
 			}
 
 		};

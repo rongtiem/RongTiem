@@ -64,6 +64,20 @@ class PostController extends AdminController {
 
 		$post->save();
 
+		DB::insert('insert into likes (user_id, posts_id) values (?, ?)', [Auth::user()->id, $postid]);
+
+		return Redirect::route('posts.index');
+	}
+
+	public function updateLikesDelete($postid)
+	{
+		$post = Post::find($postid);
+
+		$post->likes = ($post->likes)-'1';
+
+		$post->save();
+
+		DB::table('likes')->where('user_id', '=', Auth::user()->id)->where('posts_id', '=', $postid)->delete();
 		return Redirect::route('posts.index');
 	}
 	

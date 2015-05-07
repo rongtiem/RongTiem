@@ -7,13 +7,13 @@
     <div class="panel-body">
       <p class="lead">{{Auth::user()->FirstName}}</p> 
       @if(Auth::user()->points < 500) <!--/Step 1 -->
-      <p> <img src="/images/user.png" class="img-responsive" style="float:left">  ชาวยุทธ์</p>
+      <p> <img src="/images/user_1.png" class="img-responsive" style="float:left">  ชาวยุทธ์</p>
       @elseif(Auth::user()->points > 500 && Auth::user()->points < 1000) <!--/Step 2 -->
-      <p> <img src="/images/user2.png" class="img-responsive" style="float:left">  จอมยุทธ์</p>
+      <p> <img src="/images/user_2.png" class="img-responsive" style="float:left">   </p>จอมยุทธ์
       @elseif(Auth::user()->points > 1000 && Auth::user()->points < 1500) <!--/Step 3 -->
-      <p> <img src="/images/user3.png" class="img-responsive" style="float:left">  ปรมาจารย์</p>
+      <p> <img src="/images/user_3.png" class="img-responsive" style="float:left">  ปรมาจารย์</p>
       @else <!--/Step 4 -->
-      <p> <img src="/images/user4.png" class="img-responsive" style="float:left">  จ้าวยุทธภพ</p>
+      <p> <img src="/images/user_4.png" class="img-responsive" style="float:left">  จ้าวยุทธภพ</p>
       @endif
       <!--<p>พลังลมปราณ: <img src="/images/power.png" class="img-responsive"></p>-->
       <!--<div >

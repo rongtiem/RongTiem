@@ -18,24 +18,18 @@
       <tags-input ng-model="posttags" min-length="1" >
         <auto-complete source="loadTags($query)"></auto-complete>
       </tags-input>
-
-      <div class="span9">
-        <h1>Your Photos</h1>
-        @forelse ($photos as $photo)
-        <div class="well" style="text-align:center">
-          <img src="{{$photo->location}}" alt="{{$photo->description}}" title="$photo->description"/>
-          <p>{{ $photo->description }}</p>
-        </div>
-        @empty
-        <div class="alert alert-info">
-          <h4 class="alert-heading">Awww!</h4>
-        </div>
-        @endforelse
-      </div>
+      
+      @if(Session::has('name'))
+        <p >{{Session::get('name')}}</p>
+        <img id="img" src="http://rongtiem.com/uploads/{{$name = Session::get('name')}} " width="200px" height="200px" >
+      @endif
+      
+    
       <ul class="list-inline" >
         <i ng-hide="imageSrc" ></i>
-        <img ng-src="[[imageSrc]]" height="80" width="80" /><br/>
+        <img ng-src="[[imageSrc]]" height="80" width="80" ng-model="img"/><br/>
         <label class="glyphicon glyphicon-camera" for="file" ></label>
+        <input ng-model="img" style="display: none;" type="file" name="file" id="file" ng-file-select="onFileSelect($files)" multiple/>
         <label class="glyphicon glyphicon-paperclip" for="uploadBanner" ></label>
         <input style="display: none;" type="file" name="Upload a file" id="uploadBanner2" ng-file-select="onFileSelect($files)" multiple/>
         <button type="submit" class="btn btn-primary pull-right">สร้างกระทู้</button>
@@ -58,7 +52,8 @@
       <div class="panel-body" >
         <div class="clearfix">
           [[post.body]]  
-          <p><img ng-src="http://rongtiem.com/posts/[[post.id]]/image" width="200px" height="200px"></p> 
+          <!--<p><img ng-src="http://rongtiem.com/posts/[[post.id]]/image" width="200px" height="200px"></p>-->
+          <p><img src="http://rongtiem.com/uploads/[[post.img]]" width="200px" height="200px" ng-model="img"></p>
           [[post.tags]]
         </div>
         <hr>
