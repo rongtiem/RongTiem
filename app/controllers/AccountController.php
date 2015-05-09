@@ -77,20 +77,29 @@ class AccountController extends BaseController {
 			$role 				= 	Input::get('role');
 			$password 			=	Input::get('password');
 			
+			//Activation code
+			$code				=	str_random(60);
+
+			if ($role		== 'teacher') {
+				$points     =  101;
+			}else{
+				$points     =  1;
+			}
 
 			$user = User::create(array(
 				'FirstName'		=>	$FirstName,
 				'LastName'		=>	$LastName,
 				'email'			=> 	$email,
 				'role'			=>	$role,
-				'points'		=>	0,
+				'points'		=>	$points,
 				'password'		=>	Hash::make($password),
+				'code'			=>	$code,
 				'active'		=>	0
 			));
 
 			if($user){
 				//send email
-				Mail::send('emails.auth.test', array('FirstName' => $FirstName),function($message) use ($user){
+				Mail::send('emails.auth.test', array('link' => URL::route('account-activate-mail',$code),'FirstName' => $FirstName),function($message) use ($user){
 					$message->to($user->email, $user->FirstName)->subject('ยินดีต้อนรับสู่ โรงเตี๊ยม cs @ tu');
 				} );
 				return Redirect::route('account-activate')
@@ -103,15 +112,22 @@ class AccountController extends BaseController {
 		return View::make('userApply');
 	}
 
-	public function getActivateAdmin(){
-		$user = User::where('code','=',$code)->where('active','=',0);
+	public function getActivate($code){
+		$user = User::where('code','=',$code)->where('confirm','=',0);
 
 		if($user->count()){
 			$user = $user->first();
 			//Update user to active state
-			$user->active 	= 1;
+			$user->confirm 	= 1;
+			$user->code 	= '';
+			
+			if ($user->save()) {
+				return Redirect::route('account-activate');
 
+			}
 		}
+		return Redirect::route('account-activate')
+						->with('mail','ไม่สามารถยืนยันตัวตนได้');
 	}
 
 }

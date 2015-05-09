@@ -25,7 +25,7 @@
                     <div class="wide">
                         <div class="clearfix">
                             <div class="pos_fixed1" >
-                                <img src="images/nameSys.png" height="22%" width="22%" styles="margin-right: 20px;">   
+                                <img src="images/nameSys1.png" height="42%" width="32%" styles="margin-right: 20px;">   
                             </div>
                             <div class="pos_fixed2" align="left" >
                                 {{ Form::open(array('route' => 'account-login')) }}
@@ -73,6 +73,10 @@
                             <h2>
                                 โรงเตี๊ยม ที่แห่งการพบปะพูดคุย แบ่งปันความรู้
                             </h2>
+                            <br>
+                            <br>
+                            <br>
+                            <p> <img src="/images/logo.png" class="img-responsive" style="float:center">
                         </div>
                     </div>
                     <div div class="col-sm-6">

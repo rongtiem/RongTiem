@@ -10,7 +10,6 @@
 					{{ Form::open(array('url' => 'file','files'=>true,'id' => 'upload_modal_form','enctype' => 'multipart/form-data')) }}
 					{{ Form::label('photo','Photo')}}
 					{{ Form::file('file') }}
-					<input ng-model="img" type="file" name="file" id="uploadBanner2" ng-file-select="onFileSelect($files)" multiple/>
 					{{ Form::label('description','Description')}}
 					{{ Form::text('description','',array('placeholder'=>'Describe your photo here!','id'=>'description','class'=>'span5'))}}
 					{{ Form::close()}}	

@@ -18,24 +18,26 @@
       <tags-input ng-model="posttags" min-length="1" >
         <auto-complete source="loadTags($query)"></auto-complete>
       </tags-input>
-      
+      <!--<p>[[posttags]]</p>-->
+
       @if(Session::has('name'))
         <p >{{Session::get('name')}}</p>
-        <img id="img" src="http://rongtiem.com/uploads/{{$name = Session::get('name')}} " width="200px" height="200px" >
-      @endif
+        <img id="img" src="http://rongtiem.com/uploads/{{$name = Session::get('name')}} " width="100%" height="100%" >
+      @endif 
       
     
       <ul class="list-inline" >
-        <i ng-hide="imageSrc" ></i>
-        <img ng-src="[[imageSrc]]" height="80" width="80" ng-model="img"/><br/>
+        <!--<i ng-hide="imageSrc" ></i>-->
+        <img ng-if="imageSrc != ' ' " ng-src="[[imageSrc]]" height="40%" width="40%" ng-model="img"/><br/>
+        <p>[[fileName]]</p>
         <label class="glyphicon glyphicon-camera" for="file" ></label>
-        <input ng-model="img" style="display: none;" type="file" name="file" id="file" ng-file-select="onFileSelect($files)" multiple/>
-        <label class="glyphicon glyphicon-paperclip" for="uploadBanner" ></label>
-        <input style="display: none;" type="file" name="Upload a file" id="uploadBanner2" ng-file-select="onFileSelect($files)" multiple/>
+        <input style="display: none;" type="file" name="file" id="file" ng-file-select="onFileSelect2($files)" multiple/>
+        <label class="glyphicon glyphicon-paperclip" for="file2" ></label>
+        <input style="display: none;" type="file" name="file2" id="file2" ng-file-select="onFileSelect($files)" multiple/>
         <button type="submit" class="btn btn-primary pull-right">สร้างกระทู้</button>
-        <button type="button" class="btn btn-primary" onclick="$('#upload_modal').modal({backdrop: 'static'});">
+        <!--<button type="button" class="btn btn-primary" onclick="$('#upload_modal').modal({backdrop: 'static'});">
           <i class="icon-plus-sign icon-white">    
-        </i>Upload</button>
+        </i>Upload</button>--> 
       </ul> 
       <!--</div>--> 
       </form> 
@@ -46,14 +48,17 @@
   <div ng-controller="FrmController" ng-repeat="post in posts | limitTo: 10 | filter: checkLobbyID">  
     <div style="background-color:white; border-top-right-radius: 4px; border-top-left-radius: 4px;">
       <div class="panel-heading">
-        <div ng-if="post.question == '1'" style="background-color:pink"> คำถาม </div>
+        <div ng-if="post.question == '1'" > <img src="images/qMark.png" style="float:right" ></div>
+        <div ng-if="post.question != '1'" > <img src="images/paper.png" style="float:right" ></div>
+        
         <p ng-model="userId"><img ng-src="http://rongtiem.com/img/[[post.user_id]]/image" width="50px" height="50px"> [[post.user_firstname]] [[post.user_lastname]]</p> <a href="#" class="pull-right">View all</a> <h4 style="background-color:">[[post.title]] </h4>
       </div>
       <div class="panel-body" >
         <div class="clearfix">
-          [[post.body]]  
+          [[post.body]]  <br>
           <!--<p><img ng-src="http://rongtiem.com/posts/[[post.id]]/image" width="200px" height="200px"></p>-->
-          <p><img src="http://rongtiem.com/uploads/[[post.img]]" width="200px" height="200px" ng-model="img"></p>
+          <p ng-if="0 != post.img"><img src="http://rongtiem.com/uploads/[[post.img]]" width="100%" height="100%" ng-model="img"></p><br>
+          <a ng-if="0 != post.file"href="http://rongtiem.com/uploads/Attachfile/[[post.file]]">[[post.file]]</a><br>
           [[post.tags]]
         </div>
         <hr>

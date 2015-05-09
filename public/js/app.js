@@ -4,7 +4,7 @@
 		$interpolateProvider.endSymbol(']]');
 	});
 
-	myApp.controller("PostCtrl",function ($scope,$http,fileReader){	
+	myApp.controller("PostCtrl",function ($scope,$http,$upload,fileReader){	
 		var Uid = "";
 		$http.get("id").success(function (data) {
 			Uid = data;
@@ -17,14 +17,51 @@
 		$http.get("LastName").success(function (data) {
 			ULastname = data;
 		});
+
+		var img = false;
+		var file = false;
 		console.log(fileReader)
 		$scope.getFile = function () {
-			$scope.progress = 0;
 			fileReader.readAsDataUrl($scope.file, $scope)
 			.then(function(result) {
 				$scope.imageSrc = result;
-			});
+			});	
 		};
+
+		$scope.onFileSelect2 = function($files) {
+			img = true;
+			$scope.imgName = $scope.file.name;
+		    //$files: an array of files selected, each file has name, size, and type.
+		    for (var i = 0; i < $files.length; i++) {
+		    	var $file = $files[i];
+		    	$upload.upload({
+		    		url: '/file',
+		    		file: $file,
+		    		progress: function(e){}
+		    	}).then(function(data, status, headers, config) {
+		        // file is uploaded successfully
+		        console.log(data);
+		    }); 
+		    }
+		}
+		$scope.onFileSelect = function($files) {
+			file = true;
+			$scope.fileName = $scope.file.name;
+		    //$files: an array of files selected, each file has name, size, and type.
+		    for (var i = 0; i < $files.length; i++) {
+		    	var $file2 = $files[i];
+		    	$upload.upload({
+		    		url: '/fileAttach',
+		    		file: $file2,
+		    		progress: function(e){}
+		    	}).then(function(data, status, headers, config) {
+		        // file is uploaded successfully
+		        console.log(data);
+		    }); 
+		    }
+		}
+		$scope.myNumbers = [ {value: 10}, {value: 20} ];
+		
 		$scope.addNewPost = function(){
 			if ($scope.posttitle.length>0) {
 				$http.get("/posts").success(function(posts){
@@ -33,13 +70,33 @@
 				if ($scope.isQuestionFormOpen==true) {
 					var Quest = 1;
 				};
-				
+				if (img==false) {
+					fileName = 0;
+				}
+				else{
+					fileName = $scope.imgName;
+				}
+				if (file==false) {
+					fileNameAttach = 0;
+				}
+				else{
+					fileNameAttach = $scope.fileName;
+				}		
+
+		        var tag = "";
+				var Stringlength = $scope.posttags.length;
+				console.log(Stringlength);
+				for(var i=0; i < Stringlength; i++){
+					tag = tag+'#'+$scope.posttags[i].text;
+				}
+				//$scope.tag2 = tag.Replace(/,/g," ");
 				var postNew = {
 					title: $scope.posttitle,
 					body: $scope.postbody,
-					tags: $scope.posttags,
+					tags: tag,
 					question: Quest,
-					img: $scope.img,//slug: Str::slug($scope.posttitle),
+					img: fileName,
+					file: fileNameAttach,//slug: Str::slug($scope.posttitle),
 					user_id: Uid,
 					user_firstname: UFirstname,
 					user_lastname: ULastname
@@ -53,7 +110,7 @@
 				$scope.posts.push(postNew);
 				$scope.posttitle = "";
 				$scope.postbody = "";
-				//$scope.imageSrc = null;
+				$scope.imageSrc = " ";
 				$scope.posttags = "";	
 				//$http.post("file");
 				$http.post("posts",postNew);
@@ -253,6 +310,14 @@
 	//myApp.controller("UploadController",function ($scope, fileReader){
 	//});
 
+	//search
+	myApp.controller("AirplanesCtrl",function ($scope,$http) {
+        $scope.getAirplane = function(term) {
+        return $http.get('api/airplanes/' + term).then(function(data) {
+            return data.data;
+        });
+    };
+    });
 	
 	
 

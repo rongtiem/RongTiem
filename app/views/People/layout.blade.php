@@ -28,15 +28,8 @@
                     <div class="padding">
                         <div class="full col-sm-9">
                             <div class="row">
-                                @include('layouts.left')
-                                @include('layouts.center')
-                                @include('layouts.right')
+                                @include('People.banner')
                             </div>
-                            @section('form-modals')
-                            @if(Auth::check())
-                                @include('file.upload_modal')
-                                @endif
-                            @yield_section
                         </div>
                     </div>
                 </div>
@@ -58,19 +51,6 @@
     {{ HTML ::script('js/scripts.js')}}
     <!--{{ HTML ::script('js/angular.js')}}-->
     {{ HTML ::script('js/app.js')}}
-    {{ HTML ::script('js/scripts.js')}}
     {{ HTML ::script('js/upload.js')}}
-    {{ HTML ::script('js/jquery.min.js')}}
-    {{ HTML ::script('js/jquery-1.9.1.js')}}
-    {{ HTML ::script('js/jquery-ui-1.10.2.custom.min.js')}}
-    {{ HTML ::script('js/bootstrap.js')}}
-    {{ HTML ::script('js/bootstrap-typeahead.js')}}
-    {{ HTML ::script('js/typeahead.min.js')}}
-    {{ HTML ::script('js/typeahead.jquery.min.js')}}
-    {{ HTML ::script('js/typeahead.jquery.js')}}
-    {{ HTML ::script('js/typeahead.bundle.min.js')}}
-    {{ HTML ::script('js/typeahead.bundle.js')}}
-    {{ HTML ::script('js/bloodhound.min.js')}}
-    {{ HTML ::script('js/bloodhound.js')}}
 </body>
 </html>

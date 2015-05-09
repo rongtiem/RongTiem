@@ -88,7 +88,7 @@ hr {
 .navbar-red .dropdown-menu li > a {padding-left:30px;}
 
 .navbar-red li>a:hover, .navbar-red li>a:focus, .navbar-red .open, .navbar-red .open>a, .navbar-red .open>a:hover, .navbar-red .open>a:focus {
-   background-color:#2A4888;
+   background-color:#E81D0C;
    color:#fff;
 }
 
@@ -180,11 +180,11 @@ h1,h2,h3 {
 }
   
 .badge{
-   color:#3B5999;
+   color:#6E2005;
    background-color:#fff;
 }
 .badge:hover, .badge-inverse{
-   background-color:#3B5999;
+   background-color:#E88027;
    color:#fff;
 }
     
@@ -314,7 +314,7 @@ a:hover{
 }
 div.pos_fixed1 {
     position: fixed;
-    top: 15px;
+    top: 10px;
     left: 70px;  
 }
 
@@ -322,4 +322,13 @@ div.pos_fixed2 {
     position: fixed;
     top: 15px;
     right: 100px;  
+}
+
+._2exj {
+    height: 22px;
+    margin: 10px 0px 10px 5px;
+}
+
+.registration {
+    font-size: 18px;
 }

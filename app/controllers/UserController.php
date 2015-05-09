@@ -64,8 +64,8 @@ class UserController extends BaseController {
 	 return Response::json(null, 404); // คืน error ถา้ไม่พบหนงัสือ     } 
 	}
 
-	public function postCreate() {
-         
+	public function getPeople($id) {
+          return View::make('People.layout');
 	}
 
 }

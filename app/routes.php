@@ -8,11 +8,13 @@
 | It's a breeze. Simply tell Laravel the URIs it should respond to
 | and give it the Closure to execute when that URI is requested.
 |
-*/
+*//*
+	|	CSRF protection group
+	*/
 Route::group(array('before' => 'guest'),function() {
 
 	/*
-	|	CSRF protection group
+	|	Create account (POST)
 	*/
 	Route::group(array('before'=>'csrf'),function(){
 		Route::post('/', array(
@@ -25,10 +27,17 @@ Route::group(array('before' => 'guest'),function() {
 		));
 
 	});
-
+	/*
+	|	Create account (GET)
+	*/
 	Route::get('/userApply', array(
 		'as' => 'account-activate',
 		'uses' => 'AccountController@getActivateUser'
+	));
+
+	Route::get('/userApply/{code}', array(
+		'as' => 'account-activate-mail',
+		'uses' => 'AccountController@getActivate'
 	));
 
 
@@ -36,10 +45,7 @@ Route::group(array('before' => 'guest'),function() {
 
 Route::group(array('before' => 'auth'), function()
 {
-	Route::get('home', array(
-		'as' => 'home',
-		'uses' => 'HomeController@showHome'
-	));
+	
 
 });
 
@@ -48,10 +54,10 @@ Route::get('/', function(){
 });
 
 
-/*Route::get('home', array(
+Route::get('home', array(
 		'as' => 'home',
 		'uses' => 'HomeController@showHome'
-));*/
+));
 //Route::post('/', array('uses' => 'HomeController@doLogin'));
 Route::get('logout', array('uses' => 'HomeController@doLogout'));
 
@@ -102,6 +108,7 @@ Route::get('file', function(){
         } 
 });*/
 Route::post('file', array('uses' => 'PhotoController@upload'));
+Route::post('fileAttach', array('uses' => 'PhotoController@uploadFile'));
 
 Route::get('points/{$id}', function(){
 	return $user = User::find($id)->points;
@@ -158,6 +165,14 @@ Route::post('img', function(){
 //Route::get('post/json','PostController@getJson'); // คืน JSON ขอ้มูลหนงัสือ 
 
 Route::get('posts/{id}/image', 'PostController@getImage'); // คืนรูปภาพ 
+
+Route::get('/{id}', 'UserController@getPeople');
+
+//search
+Route::group(array('prefix'=>'api'), function()
+{
+    Route::resource('airplanes', 'SearchController', array('only' => 'show'));
+});
 
 
 
